@@ -1,0 +1,158 @@
+[
+  {
+    "name": "tal",
+    "age": 25,
+    "city": "Israel",
+    "hobbies": [
+      "anime",
+      "kdrama"
+    ],
+    "password": "tonykun",
+    "nickname": "Tonykun",
+    "username": "Tonykun",
+    "role": "admin",
+    "image": "/images/Tonykun.png",
+    "Email": "tal@gmail.com",
+    "email": "tal9@gmail.com",
+    "friends": [
+      "mili",
+      "nick",
+      "nisim"
+    ],
+    "backgroundImage": "/images/Tonykun.png"
+  },
+  {
+    "name": "nick",
+    "age": 28,
+    "city": "Israel",
+    "hobbies": [
+      "gaming",
+      "fun"
+    ],
+    "password": "nick",
+    "nickname": "nick",
+    "username": "nick",
+    "role": "visiter",
+    "image": "/images/Nick.png",
+    "Email": "nick@gmail.com",
+    "email": "nick@gmail.com",
+    "friends": [
+      "nick"
+    ],
+    "backgroundImage": "/images/Nick.png"
+  },
+  {
+    "name": "טל טוני ג'רבי",
+    "age": "",
+    "city": "נתניה",
+    "hobbies": "TonyKun12",
+    "password": "TonyKun12",
+    "nickname": "TonyKun12",
+    "username": "TonyKun12",
+    "role": "visiter",
+    "email": "tal9@gmail.com",
+    "image": "/images/1724516938931.png",
+    "backgroundImage": "/images/1724516938931.png",
+    "friends": [
+      "nick",
+      "mili",
+      "MOR"
+    ]
+  },
+  {
+    "name": "מילי ג'רבי",
+    "age": "",
+    "city": "נתניה",
+    "hobbies": "mili",
+    "password": "mili",
+    "nickname": "mili",
+    "username": "mili",
+    "role": "",
+    "email": "tal96047@gmail.com",
+    "image": "/images/1724251005958.jpg",
+    "friends": [
+      "MOR"
+    ],
+    "backgroundImage": "/images/1724251005958.jpg"
+  },
+  {
+    "name": "nisim",
+    "age": "24",
+    "city": "נתניה",
+    "hobbies": "",
+    "password": "nisim",
+    "nickname": "nisim",
+    "username": "nisim",
+    "role": "visiter",
+    "email": "nisim047@gmail.com",
+    "image": "/images/1724251253320.jpg",
+    "friends": [],
+    "backgroundImage": "/images/1724251253320.jpg"
+  },
+  {
+    "name": "shalom",
+    "age": "31",
+    "city": "נתניה",
+    "hobbies": "shalom",
+    "password": "shalom",
+    "nickname": "shalom",
+    "username": "shalom",
+    "role": "visiter",
+    "email": "shalom@gmail.com",
+    "image": "/images/1724251523246.jpg",
+    "friends": [],
+    "backgroundImage": "/images/1724251523246.jpg"
+  },
+  {
+    "id": "1168f660-c030-43ff-91de-d696bac785b8",
+    "name": "MOR",
+    "age": "",
+    "city": "נתניה",
+    "hobbies": "",
+    "password": "MOR",
+    "nickname": "MOR",
+    "username": "MOR",
+    "role": "visitor",
+    "email": "MOR@gmail.com",
+    "image": "/images/1724684895673.jpg",
+    "backgroundImage": "/images/1724684895675.jpg",
+    "friends": [
+      "mili",
+      "TonyKun12"
+    ]
+  },
+  {
+    "id": "2705bf94-7eb2-4fbc-83c7-72bb58c051b8",
+    "name": "Oded",
+    "age": "",
+    "city": "נתניה",
+    "hobbies": "",
+    "password": "Oded",
+    "nickname": "Oded",
+    "username": "Oded",
+    "role": "visitor",
+    "email": "Oded@gmail.com",
+    "image": "/images/1724688600050.jpg",
+    "backgroundImage": "/images/1724688600051.jpg",
+    "friends": [
+      "MOR"
+    ]
+  },
+  {
+    "id": "ca2c9ae3-9555-4143-8e12-92d3e25ef36e",
+    "name": "bot",
+    "age": "",
+    "city": "",
+    "hobbies": "",
+    "password": "bot",
+    "nickname": "bot",
+    "username": "bot",
+    "role": "visitor",
+    "email": "bot",
+    "image": "/images/1724699389351.jpg",
+    "backgroundImage": "/images/1724699389351.jpg",
+    "friends": [
+      "nisim"
+    ]
+  }
+]

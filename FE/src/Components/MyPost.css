@@ -1,0 +1,21 @@
+.background-image {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+  }
+  .profile-info{
+    padding: 20px;
+    color: white;
+    position: absolute;
+    right: 0.5%;
+    top: 29.5%;
+    background: white;
+    z-index: 99999;
+    border: black 1px solid;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: stretch;
+    border-radius: 15%;
+  }

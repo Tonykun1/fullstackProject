@@ -1,0 +1,83 @@
+.post-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.react-quill .ql-editor img {
+    width: 100%;
+    height: auto;
+}
+.ql-header{
+    color:black !important;
+}
+.post-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.ql-editor {
+    font-family: 'Roboto', sans-serif;
+}
+
+.ql-toolbar .ql-font {
+    font-family: 'Roboto', sans-serif;
+}
+.ql-editor {
+    font-family: 'Arimo', sans-serif;
+}
+
+.ql-toolbar .ql-font {
+    font-family: 'Arimo', sans-serif;
+}
+.tox-statusbar{
+    display: none !important;
+}
+.ql-font {
+    font-family: 'Arimo', sans-serif;
+}
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.submit-button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}

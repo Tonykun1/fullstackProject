@@ -1,0 +1,17 @@
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.card-img-bottom {
+    width: 100%;
+    height: auto;
+}
+.react-quill .ql-editor img {
+    width: 100%;
+    height: auto;
+}
+.img-custom {
+    width: 100%;
+    height: auto;
+}

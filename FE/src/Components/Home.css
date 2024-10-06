@@ -1,0 +1,32 @@
+
+.card {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+.username {
+    text-decoration: underline;
+}
+.card-title {
+    font-size: 1.25rem;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+.react-quill .ql-editor img {
+    width: 100%;
+    height: auto;
+}
+.card-img-bottom {
+    width: 100%;
+    height: auto;
+}
+.card-text {
+    font-size: 1rem;
+}
+.img-custom {
+    width: 50px !important;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
