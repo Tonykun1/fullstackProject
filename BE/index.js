@@ -20,18 +20,16 @@ const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
       origin: 'http://localhost:5173',
-      methods: ['GET', 'POST'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
       allowedHeaders: ['Content-Type'],
     }
   });
-app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
-  }));
   app.use(cors({
-    origin: 'http://localhost:5173'
-  }));
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'] 
+}));
+
   app.use(cors());
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -371,6 +369,11 @@ app.put('/posts/:postId/comments/:commentId', async (req, res) => {
     const { postId, commentId } = req.params;
     const { content } = req.body;
 
+    // Check if content is provided
+    if (!content) {
+        return res.status(400).json({ error: 'Content is required' });
+    }
+
     try {
         const data = await fs.promises.readFile(dataPostFilePath, 'utf8');
         const posts = JSON.parse(data);
@@ -379,19 +382,23 @@ app.put('/posts/:postId/comments/:commentId', async (req, res) => {
         const users = JSON.parse(userData);
 
         const postIndex = posts.findIndex(post => post.id === postId);
-        if (postIndex === -1) return res.status(404).json({ error: 'Post not found' });
+        if (postIndex === -1) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
 
         const commentIndex = posts[postIndex].comments.findIndex(comment => comment.id === commentId);
-        if (commentIndex === -1) return res.status(404).json({ error: 'Comment not found' });
+        if (commentIndex === -1) {
+            return res.status(404).json({ error: 'Comment not found' });
+        }
 
         const comment = posts[postIndex].comments[commentIndex];
         const user = users.find(user => user.username === comment.username);
 
         const updatedComment = {
             ...comment,
-            content: content || comment.content,
-            editTimestamp: new Date().toISOString(), 
-            nickname: user ? user.nickname : comment.nickname, 
+            content: content,
+            editTimestamp: new Date().toISOString(),
+            nickname: user ? user.nickname : comment.nickname,
             image: user ? user.image : comment.image            
         };
 
@@ -405,6 +412,7 @@ app.put('/posts/:postId/comments/:commentId', async (req, res) => {
         res.status(500).json({ error: 'Failed to process request' });
     }
 });
+
 
 
 
@@ -443,27 +451,43 @@ app.delete('/posts/:postId/comments/:commentId', (req, res) => {
         });
     });
 });
-// POST reply to a comment inside a post
 app.post('/posts/:postId/comments/:commentId/replies', async (req, res) => {
     const { postId, commentId } = req.params;
-    const { content, username } = req.body;
-
+    const { content, username, parentReplyId } = req.body;
+    
     try {
+        const userData = await fs.promises.readFile(dataFilePath, 'utf8');
+        const users = JSON.parse(userData);
+
+        const user = users.find(user => user.username === username);
+
         const data = await fs.promises.readFile(dataPostFilePath, 'utf8');
         let posts = JSON.parse(data);
 
         const post = posts.find(post => post.id === postId);
         if (!post) return res.status(404).json({ error: 'Post not found' });
 
-        const comment = post.comments.find(c => c.id === commentId);
-        if (!comment) return res.status(404).json({ error: 'Comment not found' });
+        const findCommentOrReply = (comments, commentId) => {
+            for (let comment of comments) {
+                if (comment.id === commentId) return comment;
+                if (comment.replies) {
+                    const found = findCommentOrReply(comment.replies, commentId);
+                    if (found) return found;
+                }
+            }
+            return null;
+        };
+
+        const comment = findCommentOrReply(post.comments, parentReplyId || commentId);
+        if (!comment) return res.status(404).json({ error: 'Comment/Reply not found' });
 
         const newReply = {
             id: uuidv4(),
             content,
             timestamp: new Date().toISOString(),
             username,
-            replies: [] 
+            image: user ? user.image : comment.image, 
+            replies: []
         };
 
         comment.replies = comment.replies || [];
@@ -477,7 +501,96 @@ app.post('/posts/:postId/comments/:commentId/replies', async (req, res) => {
         res.status(500).json({ error: 'Failed to process request' });
     }
 });
+app.put('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) => {
+    const { postId, commentId, replyId } = req.params;
+    const { content, username } = req.body;
 
+    if (!content || !username) {
+        return res.status(400).json({ error: 'Content and username are required.' });
+    }
+
+    try {
+        const data = await fs.promises.readFile(dataPostFilePath, 'utf8');
+        let posts = JSON.parse(data);
+
+        const post = posts.find(post => post.id === postId);
+        if (!post) {
+            console.error('Post not found:', postId);
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        const comment = post.comments.find(comment => comment.id === commentId);
+        if (!comment) {
+            console.error('Comment not found:', commentId);
+            return res.status(404).json({ error: 'Comment not found' });
+        }
+
+        console.log("Comment Replies:", comment.replies);
+
+        const reply = comment.replies.find(reply => reply.id === replyId);
+        if (!reply) {
+            console.error('Reply not found:', replyId);
+            return res.status(404).json({ error: 'Reply not found' });
+        }
+
+        reply.content = content;
+        reply.username = username;
+
+        await fs.promises.writeFile(dataPostFilePath, JSON.stringify(posts, null, 2));
+        return res.status(200).json({ message: 'Reply updated successfully.' });
+    } catch (error) {
+        console.error('Error updating reply:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
+
+
+
+app.delete('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) => {
+    const { postId, commentId, replyId } = req.params;
+
+    try {
+        const data = await fs.promises.readFile(dataPostFilePath, 'utf8');
+        let posts = JSON.parse(data);
+
+        const post = posts.find(post => post.id === postId);
+        if (!post) return res.status(404).json({ error: 'Post not found' });
+
+        const findAndDeleteCommentOrReply = (comments, commentId, replyId) => {
+            for (let i = 0; i < comments.length; i++) {
+                const comment = comments[i];
+                if (comment.id === commentId && !replyId) {
+                    comments.splice(i, 1);
+                    return true;
+                }
+                if (comment.replies) {
+                    if (replyId) {
+                        const replyIndex = comment.replies.findIndex(reply => reply.id === replyId);
+                        if (replyIndex !== -1) {
+                            comment.replies.splice(replyIndex, 1);
+                            return true;
+                        }
+                    }
+                    const found = findAndDeleteCommentOrReply(comment.replies, commentId, replyId);
+                    if (found) return true;
+                }
+            }
+            return false;
+        };
+
+        const deleted = findAndDeleteCommentOrReply(post.comments, commentId, replyId);
+        if (!deleted) return res.status(404).json({ error: 'Comment/Reply not found' });
+
+        await fs.promises.writeFile(dataPostFilePath, JSON.stringify(posts, null, 2));
+        res.status(200).json({ message: 'Comment/Reply deleted successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to delete the comment/reply' });
+    }
+});
 
 // Add a new post
 app.post('/add-post', upload.single('image'), (req, res) => {
@@ -803,12 +916,11 @@ app.post('/posts/:id/comments/:commentId/replies', async (req, res) => {
         console.error('Error adding reply:', error);
         res.status(500).json({ error: 'Failed to process request' });
     }
-});
-
-
-app.put('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) => {
+});app.put('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) => {
     const { postId, commentId, replyId } = req.params;
     const { content } = req.body;
+
+    if (!content) return res.status(400).json({ error: 'Content is required' });
 
     try {
         const data = await fs.promises.readFile(dataPostFilePath, 'utf8');
@@ -820,11 +932,11 @@ app.put('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) 
         const updateReplyInComment = (comments, commentId, replyId, newContent) => {
             for (let comment of comments) {
                 if (comment.id === commentId) {
-                    const reply = comment.replies.find(r => r.id === replyId);
+                    const reply = comment.replies?.find(r => r.id === replyId);
                     if (reply) {
                         reply.content = newContent;
                         reply.editTimestamp = new Date().toISOString();
-                        return true; 
+                        return true; // Reply updated
                     }
                 }
                 if (comment.replies && comment.replies.length > 0) {
@@ -832,7 +944,7 @@ app.put('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) 
                     if (replyUpdated) return true;
                 }
             }
-            return false;
+            return false; // Reply not found
         };
 
         const replyUpdated = updateReplyInComment(post.comments, commentId, replyId, content);
@@ -846,6 +958,7 @@ app.put('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) 
         res.status(500).json({ error: 'Failed to process request' });
     }
 });
+
 
   
 app.delete('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) => {
@@ -933,6 +1046,7 @@ app.post('/posts/:id/comments/:commentId/replies', (req, res) => {
     if (!post) {
         return res.status(404).json({ error: 'Post not found' });
     }
+
 
     const comment = post.comments.find(comment => comment.id === commentId);
 

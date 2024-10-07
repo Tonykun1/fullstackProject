@@ -473,7 +473,86 @@
             "timestamp": "2024-08-30T11:44:17.556Z",
             "username": "Tonykun",
             "nickname": "Tonykun",
-            "image": "/images/Tonykun.png"
+            "image": "/images/Tonykun.png",
+            "replies": [
+              {
+                "id": "1156a483-2fe7-406d-a7d1-c71c32a06c5c",
+                "content": "<p>fda</p>",
+                "timestamp": "2024-10-06T16:48:14.706Z",
+                "username": "TonyKun12",
+                "replies": []
+              },
+              {
+                "id": "1afc6ac1-01f4-42e2-b2ee-3f2658eecb16",
+                "content": "<p>gad</p>",
+                "timestamp": "2024-10-06T16:48:23.646Z",
+                "username": "TonyKun12",
+                "replies": [
+                  {
+                    "id": "36b7e8de-0f15-403a-a72d-b4b715631580",
+                    "content": "<p>gda</p>",
+                    "timestamp": "2024-10-06T16:49:27.768Z",
+                    "username": "TonyKun12",
+                    "replies": [
+                      {
+                        "id": "aa85e8f9-26f3-4b21-aad4-282e7ecd4456",
+                        "content": "<p>gada</p>",
+                        "timestamp": "2024-10-06T16:50:02.496Z",
+                        "username": "TonyKun12",
+                        "replies": [
+                          {
+                            "id": "c2507223-7f68-44b2-94ab-59718b6f1971",
+                            "content": "<p>עגשעגגג</p>",
+                            "timestamp": "2024-10-06T16:51:00.785Z",
+                            "username": "TonyKun12",
+                            "replies": []
+                          },
+                          {
+                            "id": "f4b9e58b-490d-45fe-8421-308a06ebe4af",
+                            "content": "<p>עגשג</p>",
+                            "timestamp": "2024-10-06T17:02:03.587Z",
+                            "username": "TonyKun12",
+                            "replies": [
+                              {
+                                "id": "58c4f248-e560-4196-b4fe-38b29d6bd969",
+                                "content": "<p>הנבס</p>",
+                                "timestamp": "2024-10-06T17:02:18.099Z",
+                                "username": "TonyKun12",
+                                "replies": [
+                                  {
+                                    "id": "87c02cd5-80d9-453d-895b-75f5d72e8888",
+                                    "content": "<p>עשג</p>",
+                                    "timestamp": "2024-10-06T17:02:34.252Z",
+                                    "username": "TonyKun12",
+                                    "replies": [
+                                      {
+                                        "id": "d190537d-3be7-48d4-8830-e7ce077ea1c1",
+                                        "content": "<p>עגש</p>",
+                                        "timestamp": "2024-10-06T17:09:12.571Z",
+                                        "username": "TonyKun12",
+                                        "image": "/images/1724516938931.png",
+                                        "replies": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "6f2857d9-41e8-4561-9050-8937e9e6f30c",
+                    "content": "<p>cnvcvn</p>",
+                    "timestamp": "2024-10-06T16:49:39.715Z",
+                    "username": "TonyKun12",
+                    "replies": []
+                  }
+                ]
+              }
+            ]
           },
           {
             "id": "1b772fd7-6f9a-4a9c-ae9f-6debac0c9903",
@@ -481,7 +560,23 @@
             "timestamp": "2024-08-30T11:59:02.311Z",
             "username": "Tonykun",
             "nickname": "Tonykun",
-            "image": "/images/Tonykun.png"
+            "image": "/images/Tonykun.png",
+            "replies": [
+              {
+                "id": "aa01766e-f5e3-44ca-960c-e27e5a7139af",
+                "content": "<p>gda</p>",
+                "timestamp": "2024-10-06T16:48:17.621Z",
+                "username": "TonyKun12",
+                "replies": []
+              },
+              {
+                "id": "c04065cc-e55f-443d-8077-d6b554889810",
+                "content": "<p>gdag</p>",
+                "timestamp": "2024-10-06T16:48:35.206Z",
+                "username": "TonyKun12",
+                "replies": []
+              }
+            ]
           },
           {
             "id": "1e7c42dd-ae6d-40aa-ad37-619f6d9e82ae",
@@ -489,7 +584,23 @@
             "timestamp": "2024-08-31T09:53:58.509Z",
             "username": "MOR",
             "nickname": "MOR",
-            "image": "/images/1724684895673.jpg"
+            "image": "/images/1724684895673.jpg",
+            "replies": [
+              {
+                "id": "36f97b48-26eb-4743-95b8-35894753668a",
+                "content": "<p>gda</p>",
+                "timestamp": "2024-10-06T16:48:41.291Z",
+                "username": "TonyKun12",
+                "replies": []
+              },
+              {
+                "id": "bdf167df-aeaa-4137-818e-f9da94677a72",
+                "content": "<p>gda</p>",
+                "timestamp": "2024-10-06T16:48:58.537Z",
+                "username": "TonyKun12",
+                "replies": []
+              }
+            ]
           }
         ]
       },
@@ -649,7 +760,7 @@
   {
     "id": "12",
     "title": "גשכ",
-    "content": "שגכגכשadf",
+    "content": "<p>שגכגכשadfgdavbmmvm</p>",
     "username": "TonyKun12",
     "timestamp": "2024-08-21T14:26:08.682Z",
     "image": "/images/1724250444149.png",
@@ -669,11 +780,40 @@
             "timestamp": "2024-08-27T22:28:12.952Z",
             "username": "bot",
             "nickname": "bot",
-            "image": "/images/1724699389351.jpg"
+            "image": "/images/1724699389351.jpg",
+            "replies": [
+              {
+                "id": "25eb33a9-6ef2-4a75-bb4e-3d13fc512a1c",
+                "content": "<p>adg</p>",
+                "timestamp": "2024-10-06T17:17:38.228Z",
+                "username": "TonyKun12",
+                "image": "/images/1724516938931.png",
+                "replies": [
+                  {
+                    "id": "bbe7b944-7819-4cfb-a302-c5b1fbd2fac3",
+                    "content": "<p>gdagad</p>",
+                    "timestamp": "2024-10-06T17:17:44.314Z",
+                    "username": "TonyKun12",
+                    "image": "/images/1724516938931.png",
+                    "replies": [
+                      {
+                        "id": "b47b1094-e89a-4d5e-8588-08e83f765ecf",
+                        "content": "<p>gda</p>",
+                        "timestamp": "2024-10-06T17:21:38.375Z",
+                        "username": "TonyKun12",
+                        "image": "/images/1724516938931.png",
+                        "replies": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
-    ]
+    ],
+    "editTimestamp": "2024-10-06T17:16:56.596Z"
   },
   {
     "id": "16",
@@ -1517,6 +1657,52 @@
         "username": "Tonykun",
         "nickname": "Tonykun",
         "image": "/images/Tonykun.png"
+      }
+    ]
+  },
+  {
+    "id": "6c531e01-08df-4c8d-b320-f0f9e63fe342",
+    "title": "fdafad",
+    "content": "<p>fdafda</p>",
+    "username": "TonyKun12",
+    "timestamp": "2024-10-07T08:05:35.842Z",
+    "image": null,
+    "comments": [
+      {
+        "id": "4bbcb63a-2f16-488a-818a-3b31434d4d08",
+        "content": "fdaafmnbfddddd",
+        "timestamp": "2024-10-07T08:05:59.309Z",
+        "username": "TonyKun12",
+        "nickname": "TonyKun12",
+        "image": "/images/1724516938931.png",
+        "replies": [
+          {
+            "id": "5ad8172d-9260-45e8-85c6-a35126d8770c",
+            "content": "<p>fdafadddddf</p>",
+            "timestamp": "2024-10-07T08:06:02.567Z",
+            "username": "TonyKun12",
+            "image": "/images/1724516938931.png",
+            "replies": [
+              {
+                "id": "a1a10e53-b54a-47da-af42-57f3310d6ae6",
+                "content": "<p>fdafadf</p>",
+                "timestamp": "2024-10-07T08:06:06.270Z",
+                "username": "TonyKun12",
+                "image": "/images/1724516938931.png",
+                "replies": []
+              },
+              {
+                "id": "697c61db-94e4-422a-8f88-8ac8b47964e8",
+                "content": "<p>fadsfa</p>",
+                "timestamp": "2024-10-07T08:06:09.782Z",
+                "username": "TonyKun12",
+                "image": "/images/1724516938931.png",
+                "replies": []
+              }
+            ]
+          }
+        ],
+        "editTimestamp": "2024-10-07T09:08:22.238Z"
       }
     ]
   }

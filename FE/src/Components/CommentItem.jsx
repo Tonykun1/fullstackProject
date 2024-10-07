@@ -1,23 +1,73 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import axios from 'axios'; 
 
 const CommentItem = ({ comment, postId, onDelete, onEdit, onReply, formatDateTime, currentUser, depth = 0 }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [editContent, setEditContent] = useState(comment.content);
+    const [editContent, setEditContent] = useState(comment.content||comment.replies.comment);
     const [replyContent, setReplyContent] = useState('');
     const [showReply, setShowReply] = useState(false);
 
-    const handleEditSave = () => {
-        onEdit(comment.id, editContent);
-        setIsEditing(false);
-    };
+
 
     const handleReply = () => {
         if (replyContent.trim()) {
-            onReply(comment.id, replyContent);
+            onReply(comment.replies.id, replyContent);
             setReplyContent('');
             setShowReply(false);
+        }
+    };
+    const cleanContent = (content) => {
+        return content.replace(/<\/?[^>]+(>|$)/g, ""); 
+    };
+    
+    const handleEditSave = () => {
+        const cleanEditContent = cleanContent(editContent);
+        onEdit(comment.id, cleanEditContent);
+        setIsEditing(false);
+    };
+    const handleEdit = async (commentId, replyId = null) => {
+        console.log("Editing Comment:", commentId, "Editing Reply:", replyId);
+        try {
+            const endpoint = replyId 
+            ? `/posts/${postId}/comments/${commentId}/replies/${replyId}` 
+            : `/posts/${postId}/comments/${commentId}`;
+    
+            console.log("Final Endpoint:", endpoint);  
+    
+            const updatedContent = editContent.trim();  
+    
+            if (!updatedContent) {
+                console.error('Content is empty, cannot update.');
+                return;
+            }
+    
+            await axios.put(endpoint, {
+                content: updatedContent,
+                username: currentUser.username
+            });
+            
+            if (replyId) {
+                onEdit(postId, commentId, updatedContent, replyId);
+            } else {
+                onEdit(postId, commentId, updatedContent);
+            }
+        } catch (error) {
+            console.error('Failed to update comment/reply:', error.response ? error.response.data : error.message);
+        }
+    };
+    
+    const handleDelete = async (commentId, replyId = null) => {
+        try {
+            const endpoint = replyId 
+                ? `/posts/${postId}/comments/${commentId}/replies/${replyId}`
+                : `/posts/${postId}/comments/${commentId}`;
+    
+            await axios.delete(endpoint);
+            onDelete(commentId); 
+        } catch (error) {
+            console.error('Failed to delete comment/reply:', error);
         }
     };
 
@@ -54,7 +104,7 @@ const CommentItem = ({ comment, postId, onDelete, onEdit, onReply, formatDateTim
                                         Edit
                                     </button>
                                     <button
-                                        onClick={() => onDelete(comment.id)}
+                                        onClick={() => handleDelete(comment.id)}
                                         className="btn btn-outline-danger mt-2"
                                     >
                                         Delete
@@ -115,8 +165,8 @@ const CommentItem = ({ comment, postId, onDelete, onEdit, onReply, formatDateTim
                     key={reply.id}
                     comment={reply}
                     postId={postId}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
+                    onDelete={handleDelete} 
+                    onEdit={handleEdit} 
                     onReply={onReply}
                     formatDateTime={formatDateTime}
                     currentUser={currentUser}
