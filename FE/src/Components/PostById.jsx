@@ -20,26 +20,30 @@ const PostById = () => {
     const [isEditingComment, setIsEditingComment] = useState(null);
 
     useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/posts/${id}`);
-                if (response.data) {
-                    setPost(response.data);
-                    setComments(response.data.comments || []);
-                    if (setCommentCount) {
-                        setCommentCount((response.data.comments || []).length);
-                    }
-                    if (response.data.username) {
-                        const userResponse = await axios.get(`http://localhost:3000/get-user/${response.data.username}`);
-                        setPostUser(userResponse.data);
-                    }
-                } else {
-                    setError('Post not found.');
+      const fetchPost = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/posts/${id}`);
+            if (response.data) {
+                const fetchedComments = response.data.comments.map(comment => ({
+                    ...comment,
+                    replies: comment.replies || [], // Ensure replies is initialized
+                }));
+                setPost(response.data);
+                setComments(fetchedComments);
+                if (setCommentCount) {
+                    setCommentCount(fetchedComments.length);
                 }
-            } catch (err) {
-                setError('Failed to fetch the post.');
+                if (response.data.username) {
+                    const userResponse = await axios.get(`http://localhost:3000/get-user/${response.data.username}`);
+                    setPostUser(userResponse.data);
+                }
+            } else {
+                setError('Post not found.');
             }
-        };
+        } catch (err) {
+            setError('Failed to fetch the post.');
+        }
+    };
 
         fetchPost();
     }, [id, setCommentCount]);
@@ -94,32 +98,33 @@ const PostById = () => {
     ];
 
     const handleReply = async (parentCommentId, replyContent) => {
-        try {
-            const response = await axios.post(`http://localhost:3000/posts/${id}/comments/${parentCommentId}/replies`, {
-                content: replyContent,
-                username: currentUser.username
-            });
-
-            const userResponse = await axios.get(`http://localhost:3000/get-user/${currentUser.username}`);
-            const newReplyWithUser = {
-                ...response.data,
-                nickname: userResponse.data.nickname,
-                image: userResponse.data.image,
-                timestamp: response.data.timestamp,
-                replies: [],
-            };
-
-            setComments(comments.map(comment =>
-                comment.id === parentCommentId
-                    ? { ...comment, replies: [...comment.replies, newReplyWithUser] }
-                    : comment
-            ));
-            setError('');
-        } catch (err) {
-            console.error('Failed to reply to comment:', err);
-            setError('Failed to reply to comment.');
-        }
-    };
+      try {
+          const response = await axios.post(`http://localhost:3000/posts/${id}/comments/${parentCommentId}/replies`, {
+              content: replyContent,
+              username: currentUser.username
+          });
+  
+          const userResponse = await axios.get(`http://localhost:3000/get-user/${currentUser.username}`);
+          const newReplyWithUser = {
+              ...response.data,
+              nickname: userResponse.data.nickname,
+              image: userResponse.data.image,
+              timestamp: response.data.timestamp,
+          };
+  
+          // Update the comments state to include the new reply
+          setComments(comments.map(comment =>
+              comment.id === parentCommentId
+                  ? { ...comment, replies: [...(comment.replies || []), newReplyWithUser] }
+                  : comment
+          ));
+          setError('');
+      } catch (err) {
+          console.error('Failed to reply to comment:', err);
+          setError('Failed to reply to comment.');
+      }
+  };
+  
 
     const handleEditComment = async (commentId, content) => {
         try {

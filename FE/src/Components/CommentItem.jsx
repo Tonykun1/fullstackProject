@@ -5,59 +5,47 @@ import axios from 'axios';
 
 const CommentItem = ({ comment, postId, onDelete, onEdit, onReply, formatDateTime, currentUser, depth = 0 }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [editContent, setEditContent] = useState(comment.content||comment.replies.comment);
+    const [editContent, setEditContent] = useState(comment.content);
     const [replyContent, setReplyContent] = useState('');
     const [showReply, setShowReply] = useState(false);
 
-
+    const handleEditSave = () => {
+        onEdit(comment.id, editContent);
+        setIsEditing(false);
+    };
 
     const handleReply = () => {
         if (replyContent.trim()) {
-            onReply(comment.replies.id, replyContent);
+            onReply(comment.id, replyContent);
             setReplyContent('');
             setShowReply(false);
         }
     };
-    const cleanContent = (content) => {
-        return content.replace(/<\/?[^>]+(>|$)/g, ""); 
-    };
-    
-    const handleEditSave = () => {
-        const cleanEditContent = cleanContent(editContent);
-        onEdit(comment.id, cleanEditContent);
-        setIsEditing(false);
-    };
-    const handleEdit = async (commentId, replyId = null) => {
-        console.log("Editing Comment:", commentId, "Editing Reply:", replyId);
+
+    const handleEdit = async (commentId, newContent, replyId = null) => {
         try {
             const endpoint = replyId 
-            ? `/posts/${postId}/comments/${commentId}/replies/${replyId}` 
-            : `/posts/${postId}/comments/${commentId}`;
-    
-            console.log("Final Endpoint:", endpoint);  
-    
-            const updatedContent = editContent.trim();  
-    
-            if (!updatedContent) {
-                console.error('Content is empty, cannot update.');
-                return;
-            }
-    
+                ? `/posts/${postId}/comments/${commentId}/replies/${replyId}`
+                : `/posts/${postId}/comments/${commentId}`;
+            
+            console.log('PUT Request URL:', endpoint); // Debug line
+            
             await axios.put(endpoint, {
-                content: updatedContent,
+                content: newContent,
                 username: currentUser.username
             });
-            
+    
             if (replyId) {
-                onEdit(postId, commentId, updatedContent, replyId);
+                onEdit(commentId, newContent, replyId); 
             } else {
-                onEdit(postId, commentId, updatedContent);
+                onEdit(commentId, newContent); 
             }
         } catch (error) {
-            console.error('Failed to update comment/reply:', error.response ? error.response.data : error.message);
+            console.error('Failed to update comment/reply:', error);
         }
     };
     
+
     const handleDelete = async (commentId, replyId = null) => {
         try {
             const endpoint = replyId 

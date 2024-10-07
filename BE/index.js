@@ -516,38 +516,29 @@ app.put('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) 
         const post = posts.find(post => post.id === postId);
         if (!post) {
             console.error('Post not found:', postId);
-            return res.status(404).json({ error: 'Post not found' });
+            return res.status(404).json({ error: 'Post not found.' });
         }
 
         const comment = post.comments.find(comment => comment.id === commentId);
         if (!comment) {
             console.error('Comment not found:', commentId);
-            return res.status(404).json({ error: 'Comment not found' });
+            return res.status(404).json({ error: 'Comment not found.' });
         }
-
-        console.log("Comment Replies:", comment.replies);
 
         const reply = comment.replies.find(reply => reply.id === replyId);
         if (!reply) {
             console.error('Reply not found:', replyId);
-            return res.status(404).json({ error: 'Reply not found' });
+            return res.status(404).json({ error: 'Reply not found.' });
         }
 
-        reply.content = content;
-        reply.username = username;
-
+        reply.content = content; // Update reply content
         await fs.promises.writeFile(dataPostFilePath, JSON.stringify(posts, null, 2));
-        return res.status(200).json({ message: 'Reply updated successfully.' });
+        return res.json(reply); // Respond with the updated reply
     } catch (error) {
-        console.error('Error updating reply:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        console.error('Failed to update reply:', error);
+        res.status(500).json({ error: 'Failed to update reply.' });
     }
 });
-
-
-
-
-
 
 app.delete('/posts/:postId/comments/:commentId/replies/:replyId', async (req, res) => {
     const { postId, commentId, replyId } = req.params;
@@ -557,7 +548,10 @@ app.delete('/posts/:postId/comments/:commentId/replies/:replyId', async (req, re
         let posts = JSON.parse(data);
 
         const post = posts.find(post => post.id === postId);
-        if (!post) return res.status(404).json({ error: 'Post not found' });
+        if (!post) {
+            console.error(`Post with ID ${postId} not found`);
+            return res.status(404).json({ error: 'Post not found' });
+        }
 
         const findAndDeleteCommentOrReply = (comments, commentId, replyId) => {
             for (let i = 0; i < comments.length; i++) {
@@ -582,7 +576,10 @@ app.delete('/posts/:postId/comments/:commentId/replies/:replyId', async (req, re
         };
 
         const deleted = findAndDeleteCommentOrReply(post.comments, commentId, replyId);
-        if (!deleted) return res.status(404).json({ error: 'Comment/Reply not found' });
+        if (!deleted) {
+            console.error(`Comment/Reply with ID ${commentId} or ${replyId} not found`);
+            return res.status(404).json({ error: 'Comment/Reply not found' });
+        }
 
         await fs.promises.writeFile(dataPostFilePath, JSON.stringify(posts, null, 2));
         res.status(200).json({ message: 'Comment/Reply deleted successfully' });
@@ -591,6 +588,7 @@ app.delete('/posts/:postId/comments/:commentId/replies/:replyId', async (req, re
         res.status(500).json({ error: 'Failed to delete the comment/reply' });
     }
 });
+
 
 // Add a new post
 app.post('/add-post', upload.single('image'), (req, res) => {
